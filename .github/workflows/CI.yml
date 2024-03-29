@@ -37,14 +37,14 @@ jobs:
           mingw32-make -j$(nproc)
 
       - name: Rename
-        working-directory: ./build/src
+        working-directory: ./build
         run: mv regex-issue.exe regex-issue-non_ucrt.exe
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: dist
-          path: ./build/src/regex-issue-non_ucrt.exe
+          path: ./build/regex-issue-non_ucrt.exe
           if-no-files-found: error
 
   build_win_ucrt:
@@ -78,12 +78,12 @@ jobs:
           mingw32-make -j$(nproc)
 
       - name: Rename
-        working-directory: ./build/src
+        working-directory: ./build
         run: mv regex-issue.exe regex-issue-ucrt.exe
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: dist
-          path: ./build/src/regex-issue-ucrt.exe
+          path: ./build/regex-issue-ucrt.exe
           if-no-files-found: error
