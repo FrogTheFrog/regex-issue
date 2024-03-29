@@ -8,7 +8,7 @@ on:
 jobs:
 
   build_win_non_ucrt:
-    name: Windows
+    name: Windows (NON UCRT)
     runs-on: windows-2019
 
     steps:
@@ -48,7 +48,7 @@ jobs:
           if-no-files-found: error
 
   build_win_ucrt:
-    name: Windows
+    name: Windows (UCRT)
     runs-on: windows-2019
 
     steps:
