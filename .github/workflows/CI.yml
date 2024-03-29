@@ -1,0 +1,51 @@
+---
+name: CI
+
+on:
+  push:
+    branches: [main, nightly]
+
+jobs:
+
+  build_win_ucrt:
+    name: Windows
+    runs-on: windows-2019
+    needs: [check_changelog, setup_release]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Dependencies Windows
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ucrt64
+          update: true
+          install: >-
+            git
+            mingw-w64-ucrt-x86_64-cmake
+            mingw-w64-ucrt-x86_64-toolchain
+
+      - name: Build Windows
+        shell: msys2 {0}
+        run: |
+          mkdir build
+          cd build
+          cmake \
+            -DCMAKE_BUILD_TYPE=Release \
+            -G "MinGW Makefiles" \
+            ..
+          mingw32-make -j$(nproc)
+
+      - name: Rename
+        working-directory: ./build/src
+        run: mv regex-issue.exe regex-issue-ucrt.exe
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: ./build/src/regex-issue-ucrt.exe
+          if-no-files-found: error
