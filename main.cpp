@@ -6,6 +6,7 @@
 int main() 
 {
    std::setlocale(LC_ALL, ".UTF-8");
+   std::cout << "setlocale info: " << setlocale(LC_ALL, NULL) << std::endl;
 
    std::cout << "Before regex" << std::endl;
 
